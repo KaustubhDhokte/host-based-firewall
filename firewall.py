@@ -1,13 +1,14 @@
 """
+Host based firewall
 """
 import csv
 
 
 def process_ip(ip):
     """
-
-    :param ip:
-    :return:
+    Adds trailing zeros to IP octets
+    :param ip: string
+    :return: formatted ip address
     """
     octets = ip.split('.')
     new_ip = str()
@@ -25,7 +26,7 @@ def process_ip(ip):
 
 class BSTree(object):
     """
-
+    Data structure to hold firewall rules
     """
     def __init__(self, head=None):
         """
@@ -36,8 +37,8 @@ class BSTree(object):
 
     def insert(self, node):
         """
-
-        :param node:
+        Insert a node to the firewall tree
+        :param node: node of the tree
         :return:
         """
         if not self.head:
@@ -63,7 +64,7 @@ class BSTree(object):
 
     def search(self, port):
         """
-
+        Searches for a node in the firewall rules tree
         :param node:
         :return:
         """
@@ -87,11 +88,11 @@ class BSTree(object):
 
 class Node(object):
     """
-
+    Node to hold the firewall rules
     """
     def __init__(self, port, traffic, protocol, ip):
         """
-
+        Initialize node of a firewall rules tree
         """
         self.port = port
         self.traffic = []
@@ -113,7 +114,7 @@ class Node(object):
 
     def update(self, node):
         """
-
+        update the node definition
         :return:
         """
         self.update_ip(node.ip)
@@ -122,7 +123,7 @@ class Node(object):
 
     def update_traffic(self, traffic):
         """
-
+        Update traffic direction
         :param traffic:
         :return:
         """
@@ -131,7 +132,7 @@ class Node(object):
 
     def update_protocol(self, protocol):
         """
-
+        Update protocol
         :param traffic:
         :return:
         """
@@ -140,7 +141,7 @@ class Node(object):
 
     def update_ip(self, ip):
         """
-
+        Update IP address
         :param ip:
         :return:
         """
@@ -178,10 +179,9 @@ class Firewall(object):
     """
     def __init__(self, path_to_csv):
         """
-
+        Reads a csv file and creates a Binary search tree holding firewall rules
         :param path_to_csv:
         """
-
         with open(path_to_csv) as csvfile:
             reader = csv.reader(csvfile)
             t = BSTree()
@@ -204,7 +204,7 @@ class Firewall(object):
 
     def accept_packet(self, direction, protocol, port, ip_address):
         """
-
+        Accepts network parameters and checks with firewall rules if a packet needs to be dropped or accepted
         :param direction:
         :param protocol:
         :param port:
@@ -226,6 +226,7 @@ class Firewall(object):
                             if ip_address > range['start'] and ip_address < range['end']:
                                 return True
         return False
+
 
 if __name__ == '__main__':
     fw = Firewall('input.txt')
